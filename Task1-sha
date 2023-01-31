@@ -1,0 +1,270 @@
+package main
+
+import (
+	"fmt"
+)
+
+func binaryAdditionOfStrings(string1 string, string2 string) string {
+	if len(string1) > len(string2) {
+		return binaryAdditionOfStrings(string2, string1)
+	}
+	difference := len(string2) - len(string1)
+
+	for i := 0; i < difference; i++ {
+		string1 = "0" + string1
+	}
+
+	carry := "0"
+
+	answer := ""
+	for i := len(string1) - 1; i >= 0; i-- {
+		if string1[i] == '1' && string2[i] == '1' {
+			if carry == "1" {
+				answer = "1" + answer
+			} else {
+				answer = "0" + answer
+				carry = "1"
+			}
+		} else if string1[i] == '0' && string2[i] == '0' {
+			if carry == "1" {
+				answer = "1" + answer
+				carry = "0"
+			} else {
+				answer = "0" + answer
+			}
+		} else if string1[i] != string2[i] {
+			if carry == "1" {
+				answer = "0" + answer
+			} else {
+				answer = "1" + answer
+			}
+		}
+	}
+	if carry == "1" {
+		answer = "1" + answer
+	}
+	return answer
+}
+func rightshift(a1 string, k int) string {
+	temp := ""
+	runes := []rune(a1)
+	for i := 0; i < k; i++ {
+		temp += "0"
+	}
+	runes = append(runes[:len(a1)-k])
+	temp += string(runes)
+	return temp
+}
+
+func xor(a1 string, a2 string) string {
+
+	a := ""
+
+	for i := 0; i < len(a1); i++ {
+		if a1[i] == a2[i] {
+			a += "0"
+		}
+		if a1[i] != a2[i] {
+			a += "1"
+		}
+	}
+	return a
+}
+
+func and(a1, a2 string) string {
+	a := ""
+	for i := 0; i < len(a1); i++ {
+		if a1[i] == '1' && a2[i] == '1' {
+
+			a += "1"
+		} else {
+			a += "0"
+		}
+	}
+	return a
+}
+func not(a1 string) string {
+	a := ""
+	for i := 0; i < len(a1); i++ {
+		if a1[i] == '1' {
+			a += "0"
+		} else {
+			a += "1"
+		}
+
+	}
+	return a
+}
+func hex_bin(a1 int) string {
+
+	// fmt.Println("adfhalsd", aaaa, aaaaa)
+	// a, _ := strconv.ParseInt(a1, 2, 64)
+	// fmt.Println("a", len(string(a)))
+	return fmt.Sprintf("%.8b", a1)
+}
+
+func rotate(nums string, k int) string {
+
+	runes := []rune(nums)
+	// fmt.Println("------------------")
+	// fmt.Println("len of runes is", len(runes))
+	// fmt.Println("len of nums", len(nums))
+	runes = append(runes[k:], runes[0:k]...)
+	return string(runes)
+}
+
+func main1() {
+	input := "hi i am ritvik"
+	res := ""
+	h0 := "01101010000010011110011001100111"
+	h1 := "10111011011001111010111010000101"
+	h2 := "00111100011011101111001101110010"
+	h3 := "10100101010011111111010100111010"
+	h4 := "01010001000011100101001001111111"
+	h5 := "10011011000001010110100010001100"
+	h6 := "00011111100000111101100110101011"
+	h7 := "01011011111000001100110100011001"
+
+	var a1 = []int{0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+		0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+		0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+		0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+		0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+		0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+		0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2}
+	for _, c := range input {
+		res = fmt.Sprintf("%s%.8b", res, c)
+	}
+
+	res += "1"
+	//fmt.Println(len(res))
+	for i := len(res); i < 448; i++ {
+		res += "0"
+	}
+	//fmt.Printf("\n%b", len(input))
+	//fmt.Println(res)
+	v := fmt.Sprintf("%b", len(input))
+	for i := len(v); i < 64; i++ {
+		res += "0"
+	}
+
+	res += v
+	//fmt.Println("length is", len(res))
+	//fmt.Println(res)
+	for i := 0; i < 48; i++ {
+		res += "00000000000000000000000000000000"
+	}
+
+	w := []string{}
+	for i := 0; i < len(res); i += 32 {
+
+		// fmt.Println("i", i, i+32)
+		// res = res[:i] + " " + res[i:]
+		w = append(w, res[i:i+32])
+
+	}
+
+	/*s0:=""
+	s1=""
+
+	w := []rune(res)
+	for i:=0;i<len(res);i++ {
+
+	}*/
+	fmt.Println(res) ///printing incomplete output
+	fmt.Println(len(res))
+	fmt.Println("-----------------------------------------------------------------------------------")
+	fmt.Println("length of w", len(w))
+	for i := 16; i < 64; i++ {
+		s01 := rotate(w[i-15], 7)
+		s02 := rotate(w[i-15], 18)
+		s03 := rightshift(w[i-15], 3)
+		s04 := xor(s01, s02)
+		s0 := xor(s04, s03)
+		s10 := rotate(w[i-2], 17)
+		s11 := rotate(w[i-2], 19)
+		s12 := rightshift(w[i-2], 10)
+		s13 := xor(s10, s11)
+		s1 := xor(s13, s12)
+		w0 := w[i-16]
+		w1 := w[i-7]
+
+		w01 := binaryAdditionOfStrings(w0, w1)
+		w02 := binaryAdditionOfStrings(s0, s1)
+		w[i] = binaryAdditionOfStrings(w01, w02)
+
+	}
+	fmt.Print(w)
+	fmt.Println("-----------------------------------")
+	a := h0
+	b := h1
+	c := h2
+	d := h3
+	e := h4
+	f := h5
+	g := h6
+	h := h7
+	var h8 []string
+	for i := 0; i < 64; i++ {
+		fmt.Println("i", i)
+
+		S10 := rotate(e, 6)
+		S11 := rotate(e, 11)
+		S12 := rotate(e, 25)
+		S13 := xor(S10, S11)
+		fmt.Println("i1", i)
+
+		S := xor(S13, S12)
+		ch0 := and(e, f)
+		ch1 := not(e)
+		fmt.Println("ch1", len(ch1), len(g), len(e))
+		ch2 := and(ch1, g)
+		fmt.Println("i2", i)
+		ch := xor(ch0, ch2)
+		k1 := hex_bin(a1[i])
+		temp1 := binaryAdditionOfStrings(h, S)
+
+		temp2 := binaryAdditionOfStrings(temp1, ch)
+
+		temp3 := binaryAdditionOfStrings(temp2, k1)
+
+		temp4 := binaryAdditionOfStrings(temp3, w[i])
+
+		S01 := rotate(a, 2)
+		S02 := rotate(a, 13)
+		S03 := rotate(a, 22)
+		S04 := xor(S01, S02)
+		S0 := xor(S04, S03)
+		maj1 := xor(and(a, b), and(a, c))
+		maj := xor(maj1, and(b, c))
+
+		tempt := binaryAdditionOfStrings(S0, maj)
+		h = g
+		g = f
+		f = e
+		e = binaryAdditionOfStrings(d, temp4)
+
+		d = c
+		c = b
+		b = a
+		a = binaryAdditionOfStrings(temp4, tempt)
+
+		fmt.Println("k1")
+	}
+	h0 = binaryAdditionOfStrings(h0, a)
+	h1 = binaryAdditionOfStrings(h0, b)
+	h2 = binaryAdditionOfStrings(h0, c)
+	h3 = binaryAdditionOfStrings(h0, d)
+	h4 = binaryAdditionOfStrings(h0, e)
+	h5 = binaryAdditionOfStrings(h0, f)
+	h6 = binaryAdditionOfStrings(h0, g)
+
+	h7 = binaryAdditionOfStrings(h0, h)
+	h8 = append([]string{h0}, h1, h2, h3, h4, h5, h6, h7)
+
+	final := []string{}
+	for i := 0; i < len(h8); i += 8 {
+		final = append(final, h8[i:i+8]...)
+	}
+	fmt.Println(final)
+}
