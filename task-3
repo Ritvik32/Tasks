@@ -1,0 +1,33 @@
+// creating private key,public key and hex address
+
+package main
+
+import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/sha256"
+	"fmt"
+	//"github.com/tendermint/tendermint/crypto/secp256k1"
+)
+
+func main() {
+	priv, _ := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	pub := priv.PublicKey
+	pub_hash := sha256.Sum256(elliptic.Marshal(elliptic.P256(), pub.X, pub.Y))
+	fmt.Println("private key is:", priv.D.String())
+	fmt.Println("public key is:", pub)
+	fmt.Println("hashed value:", pub_hash[:])
+	/*priv := secp256k1.GenPrivKey()
+	fmt.Println(priv)
+	pub := priv.PubKey()
+	fmt.Println(pub)
+	priv, _ := rsa.GenerateKey(rand.Reader, 256)
+	pub := priv.PublicKey
+	fmt.Println("PRIV KEY IS", priv.D)
+	fmt.Println("-------------------------------------")
+	fmt.Println("PUB KEY IS", pub)
+	pub_hash:=sha256.Sum256()
+	fmt.Println("Hashed value is :",*/
+
+}
