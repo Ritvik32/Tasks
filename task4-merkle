@@ -1,0 +1,55 @@
+package main
+
+import (
+	"crypto/sha256"
+	"fmt"
+)
+
+func main() {
+	fmt.Printf("%x", gen_merkle([]string{"A", "B", "C", "D", "E", "F"}))
+
+}
+
+func del_leaf_node(a string) {
+	
+}
+
+//func add_node(a string)
+
+func gen_merkle(a []string) []string {
+	input := a
+	var node []string
+
+	if len(input)%2 != 0 {
+		node = append(node, input[len(input)-1])
+	}
+	node = input
+	for len(node) > 1 {
+		var temp []string
+		for j := 0; j < len(node); j += 2 {
+			node1 := node[j]
+			var node2 string
+			if j+1 < len(node) {
+				node2 = node1
+
+			}
+
+			var hashvalue []byte
+
+			temp1 := sha256.Sum256([]byte(node1))
+			temp2 := sha256.Sum256([]byte(node2))
+
+			hashvalue = append(hashvalue, temp1[:]...)
+			hashvalue = append(hashvalue, temp2[:]...)
+			temp3 := sha256.Sum256(hashvalue)
+
+			mystring := string(temp3[:])
+			temp = append(temp, mystring)
+
+		}
+		node = temp
+
+	}
+	return node
+	//fmt.Printf("%x", node)
+}
