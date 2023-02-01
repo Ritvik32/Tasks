@@ -7,14 +7,27 @@ import (
 
 func main() {
 	fmt.Printf("%x", gen_merkle([]string{"A", "B", "C", "D", "E", "F"}))
-
+	fmt.Println("after deleting a node E from the merkle tree the hash we get is :")
+	fmt.Printf("%x", gen_merkle(del_leaf_node([]string{"A", "B", "C", "D", "E", "F"}, "F")))
+	//fmt.Printf("%x", gen_merkle(del_leaf_node()))
+	//fmt.Print
+	fmt.Printf("%x", gen_merkle(add_leaf_node([]string{"A", "B", "C", "D", "E"}, "G")))
 }
 
-func del_leaf_node(a string) {
-	
+func add_leaf_node(a []string, key string) []string {
+	a = append(a, key)
+	return a
 }
+func del_leaf_node(a []string, key string) []string {
+	for i, v := range a {
+		if v == key {
+			a = append(a[:i], a[i+1:]...)
 
-//func add_node(a string)
+		}
+	}
+	return a
+
+}
 
 func gen_merkle(a []string) []string {
 	input := a
