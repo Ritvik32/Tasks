@@ -1,17 +1,18 @@
-//generate public key,private key and the hex address
-
 package main
 
 import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"crypto/rsa"
 	"crypto/sha256"
 	"encoding/hex"
+
 	"fmt"
 )
 
 func main() {
+	//using ecdsa algorithm
 	priv, _ := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	pub := priv.PublicKey
 	pub_hash := sha256.Sum256(elliptic.Marshal(elliptic.P256(), pub.X, pub.Y))
@@ -22,5 +23,11 @@ func main() {
 	hash2 = append(hash2, pub_hash[:]...)
 	address := hex.EncodeToString(hash2)
 	fmt.Println("hex address is", address) //displays hex address
+	//using rsa algorithm
+	priv1, _ := rsa.GenerateKey(rand.Reader, 256)
+	pub1 := priv1.PublicKey
+
+	fmt.Println(priv1)
+	fmt.Println(pub1)
 
 }
