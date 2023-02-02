@@ -1,3 +1,6 @@
+//merkle tree implementation :
+//verifying a node,adding node,deleting node
+
 package main
 
 import (
@@ -6,12 +9,20 @@ import (
 )
 
 func main() {
+	//fmt.Println(([]string{"A", "B", "C", "D", "E", "G"}))
 	fmt.Printf("%x", gen_merkle([]string{"A", "B", "C", "D", "E", "F"}))
+	// fmt.Printf("%x", gen_merkle([]string{"A", "B", "C", "D", "E", "H"}))
+	fmt.Println()
+	fmt.Println("-------------------------------------------------------")
 	fmt.Println("after deleting a node E from the merkle tree the hash we get is :")
-	fmt.Printf("%x", gen_merkle(del_leaf_node([]string{"A", "B", "C", "D", "E", "F"}, "F")))
+	fmt.Printf("%x", gen_merkle(del_leaf_node([]string{"A", "B", "C", "D", "G"}, "G")))
 	//fmt.Printf("%x", gen_merkle(del_leaf_node()))
-	//fmt.Print
-	fmt.Printf("%x", gen_merkle(add_leaf_node([]string{"A", "B", "C", "D", "E"}, "G")))
+	fmt.Println()
+	fmt.Println("Hashed value after adding a new element")
+	fmt.Printf("%x", gen_merkle(add_leaf_node([]string{"A", "B", "C", "D"}, "A")))
+	fmt.Println()
+	fmt.Println("---------------------------------------")
+	verify_node([]string{"A", "B", "C", "D", "E", "F"}, "A")
 }
 
 func add_leaf_node(a []string, key string) []string {
@@ -29,8 +40,28 @@ func del_leaf_node(a []string, key string) []string {
 
 }
 
+func verify_node(a []string, key string) {
+	counter := 0
+	for i := 0; i < len(a); i++ {
+		if a[i] == key {
+			counter = 1
+			break
+
+		}
+
+	}
+	if counter == 1 {
+		fmt.Println("node is present")
+	} else {
+		fmt.Println("Node is not present")
+	}
+
+}
+
 func gen_merkle(a []string) []string {
 	input := a
+	//fmt.Println(a)
+	//fmt.Println(input)
 	var node []string
 
 	if len(input)%2 != 0 {
@@ -42,9 +73,10 @@ func gen_merkle(a []string) []string {
 		for j := 0; j < len(node); j += 2 {
 			node1 := node[j]
 			var node2 string
-			if j+1 < len(node) {
+			if j+1 >= len(node) {
 				node2 = node1
-
+			} else {
+				node2 = node[j+1]
 			}
 
 			var hashvalue []byte
@@ -60,9 +92,13 @@ func gen_merkle(a []string) []string {
 			temp = append(temp, mystring)
 
 		}
+		//fmt.Println()
+		//fmt.Printf("%x--------------------------------------", node)
 		node = temp
 
 	}
-	return node
 	//fmt.Printf("%x", node)
+
+	return node
+
 }
