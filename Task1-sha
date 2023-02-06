@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
 func binaryAdditionOfStrings(string1 string, string2 string) string {
@@ -43,8 +44,18 @@ func binaryAdditionOfStrings(string1 string, string2 string) string {
 	if carry == "1" {
 		answer = "1" + answer
 	}
-	return answer
+	ans := answer[len(answer)-32 : len(answer)]
+	return ans
 }
+func parseBinToHex(s string) string {
+	ui, err := strconv.ParseUint(s, 2, 64)
+	if err != nil {
+		return "error"
+	}
+
+	return fmt.Sprintf("%0.8x", ui)
+}
+
 func rightshift(a1 string, k int) string {
 	temp := ""
 	runes := []rune(a1)
@@ -113,8 +124,8 @@ func rotate(nums string, k int) string {
 	return string(runes)
 }
 
-func main1() {
-	input := "hi i am ritvik"
+func main() {
+	input := "hi i am ritviks"
 	res := ""
 	h0 := "01101010000010011110011001100111"
 	h1 := "10111011011001111010111010000101"
@@ -164,17 +175,10 @@ func main1() {
 
 	}
 
-	/*s0:=""
-	s1=""
-
-	w := []rune(res)
-	for i:=0;i<len(res);i++ {
-
-	}*/
-	fmt.Println(res) ///printing incomplete output
-	fmt.Println(len(res))
-	fmt.Println("-----------------------------------------------------------------------------------")
-	fmt.Println("length of w", len(w))
+	//fmt.Println(res)
+	////fmt.Println(len(res))
+	//fmt.Println("-----------------------------------------------------------------------------------")
+	//fmt.Println("length of w", len(w))
 	for i := 16; i < 64; i++ {
 		s01 := rotate(w[i-15], 7)
 		s02 := rotate(w[i-15], 18)
@@ -194,8 +198,8 @@ func main1() {
 		w[i] = binaryAdditionOfStrings(w01, w02)
 
 	}
-	fmt.Print(w)
-	fmt.Println("-----------------------------------")
+	//fmt.Print(w)
+	//fmt.Println("-----------------------------------")
 	a := h0
 	b := h1
 	c := h2
@@ -206,20 +210,18 @@ func main1() {
 	h := h7
 	var h8 []string
 	for i := 0; i < 64; i++ {
-		fmt.Println("i", i)
 
 		S10 := rotate(e, 6)
 		S11 := rotate(e, 11)
 		S12 := rotate(e, 25)
 		S13 := xor(S10, S11)
-		fmt.Println("i1", i)
 
 		S := xor(S13, S12)
 		ch0 := and(e, f)
 		ch1 := not(e)
-		fmt.Println("ch1", len(ch1), len(g), len(e))
+
 		ch2 := and(ch1, g)
-		fmt.Println("i2", i)
+
 		ch := xor(ch0, ch2)
 		k1 := hex_bin(a1[i])
 		temp1 := binaryAdditionOfStrings(h, S)
@@ -249,7 +251,6 @@ func main1() {
 		b = a
 		a = binaryAdditionOfStrings(temp4, tempt)
 
-		fmt.Println("k1")
 	}
 	h0 = binaryAdditionOfStrings(h0, a)
 	h1 = binaryAdditionOfStrings(h0, b)
@@ -266,5 +267,15 @@ func main1() {
 	for i := 0; i < len(h8); i += 8 {
 		final = append(final, h8[i:i+8]...)
 	}
-	fmt.Println(final)
+
+	//fmt.Println(final)
+	/*for i:=0;i<len(final);i++ {
+		tttemp+=hex_bin(final[i])
+	}*/
+	fmt.Println("-----------------------")
+	var cc string = ""
+	for i := 0; i < len(final); i++ {
+		cc += parseBinToHex(final[i])
+	}
+	fmt.Println(cc)
 }
